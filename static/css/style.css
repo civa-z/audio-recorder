@@ -1,0 +1,64 @@
+
+/* Styles for recorder buttons */
+.recorder button, .level {
+    border: 1px solid #686868;
+    height: 30px;
+    background-color: white;
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 2px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+/* Styles for level indicator - required! */
+.level {
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+.progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #880042;
+}
+#flashcontentwrapper, #flashcontent{
+    box-sizing: border-box;
+    margin: 4px;
+    width: auto;
+    height: auto;
+    border-style:hidden;
+    display: inline-block;
+
+    background-color:#99F;
+    /*filter:alpha(Opacity=50);
+    -moz-opacity:0.5;
+    opacity: 0.5;*/
+    position:absolute;
+    padding:2px;
+    border-radius: 2px;
+    z-index:999999;
+}
+.audio-box{
+    width:800px;
+    height: 80px;
+    border: 1px solid #686868;
+    margin: 2px;
+    padding:2px;
+    box-sizing: border-box;
+    text-align:justify;
+    vertical-align: middle;
+    display: flex;
+    justify-content:center;
+    align-items:Center;
+
+}
+.audio-text{
+}
+
+.audio0{
+    position:relative;
+    border: 1px solid #686868;
+}

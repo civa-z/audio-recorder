@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Basic demo of WavRecorder</title>
+    <link type="text/css" rel="stylesheet" href="static/css/basic.css">
+    <link type="text/css" rel="stylesheet" href="static/css/style.css">
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1><span class="basic">Basic demo of</span><span class="project-name">WavRecorder</span></h1>
+
+    <script type="text/javascript" src="static/js/flash-audio-recorder/jquery.js"></script>
+    <script type="text/javascript" src="static/js/flash-audio-recorder/swfobject.js"></script>
+    <script type="text/javascript" src="static/js/flash-audio-recorder/flash-audio-recorder.js"></script>
+    <script type="text/javascript" src="static/js/context-audio-recorder/context-audio-recorder.js"></script>
+    <script type="text/javascript" src="static/js/recorder-wrapper.js"></script>
+
+    <section class="recorder-container">
+        <p0>context recorder tester</p0>
+        <div class="recorder">
+        <button class="stop-recording" id="context-recorder">
+            <img src="static/images/mic.png"/>
+        </button>
+        </div>
+    </section>
+
+    <section class="recorder-container">
+        <p0>Flash recorder tester</p0>
+        <div class="recorder">
+            <button class="flash-recorder" id="flash-recorder">
+                <img src="static/images/record.png" alt="Record">
+            </button>
+            <div class="level">
+                <div class="progress"></div>
+            </div>
+            <div id="flashcontentwrapper">
+                <div id="flashcontent" >
+                    <p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div align="center">
+        <div class="audio-box">
+            <p0 class="audio-text">audio-wav</p0>
+            <Audio class = "audio0" id="audio-wav"  src="/static/audio/test.wav" controls="controls">No suport wav type</Audio>
+        </div>
+        <div class="audio-box">
+            <p0 class="audio-text">audio-mp3</p0>
+            <Audio class = "audio0" id="audio-mp3"  src="/static/audio/test.mp3" controls="controls">No suport mp3 type</Audio>
+        </div>
+        <div class="audio-box">
+            <p0 class="audio-text">audio-flac</p0>
+            <Audio class = "audio0" id="audio-flac"  src="/static/audio/test.flac" controls="controls">No suport flac type</Audio>
+        </div>
+        <div class="audio-box">
+            <p0 class="audio-text">audio-ogg</p0>
+            <Audio class = "audio0" id="audio-ogg"  src="/static/audio/test.ogg" controls="controls">No suport ogg type</Audio>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

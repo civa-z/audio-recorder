@@ -1,0 +1,49 @@
+python C:\Anaconda2\Lib\site-packages\django\bin\django-admin.py startproject audiorecorder
+
+cd audiorecorder
+
+Update allowed hosts:
+	audiorecorder/settings.py
+	ALLOWED_HOSTS = []
+	-->
+	ALLOWED_HOSTS = ["*"]
+
+python manage.py runserver 43.82.40.114:8000
+
+python manage.py startapp mysite
+
+Add mysite to settings:
+	audiorecorder/settings.py
+	INSTALLED_APPS = [
+	...
+		'mysite',
+	]
+	
+Add home html page templates/index.html to mysite folder
+	<!DOCTYPE HTML>
+	<html>
+	<head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	   <title>Sony Voice Recognization</title>
+	   <meta charset="utf-8" />
+	</head>
+
+	<body>
+		<h1 id="title">Sony Voice Recognization</h1>
+	</body>
+	</html>
+
+Add mysite page enttrnce to mysite/views.py
+	def mysite(request):
+		return render(request, 'index.html')
+
+Add mysite/views.mysite to url pattern
+	audiorecorder/urls.py
+	from mysite import views
+	urlpatterns = [
+		url(r'^admin/', admin.site.urls),
+		url(r'^$', views.mysite),
+	]
+
+Do what you want in index.html
+
