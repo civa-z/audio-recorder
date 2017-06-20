@@ -6,29 +6,37 @@ $(function(){
         Recorder.stop = stop;
         Recorder.registerWavDataCallback = register_wav_data_callback;
 
-        //Recorder.recorderInstance = ContextAudioRecorder(Recorder.onStatusUpdate);
-        if (!Recorder.recorderInstance || !Recorder.recorderInstance.initialize()){
+
+        var recorderButton;
+        Recorder.recorderInstance = ContextAudioRecorder(Recorder.onStatusUpdate);
+        if (Recorder.recorderInstance && Recorder.recorderInstance.initialize()){
+            recorderButton = document.getElementById("context-recorder");
+        } else {
             Recorder.recorderInstance = FlashAudioRecorder(Recorder.onStatusUpdate);
             Recorder.recorderInstance.initialize();
+            recorderButton = document.getElementById("flash-recorder");
         }
-
-        // test data start
-        var context_recorder = document.getElementById("context-recorder");
-        context_recorder.onmousedown = Recorder.start;
-        context_recorder.onmouseup = Recorder.stop;
-
-        var flash_recorder = document.getElementById("flash-recorder");
-        flash_recorder.onmousedown = Recorder.start;
-        flash_recorder.onmouseup = Recorder.stop;
-
+        recorderButton.onmousedown = Recorder.start;
+        recorderButton.onmouseup = Recorder.stop;
         Recorder.registerWavDataCallback(on_wav_data);
+
+        wavToFlac = new WavToFlac();
+        wavToFlac.initialize(on_flac_data);
+
         function on_wav_data(){
             var wavData = Recorder.recorderInstance.getWavData();
             var wavData_downsample = CommmonWav.downsampleWav(wavData, 3);
             var wavData_Uint8Array = new Uint8Array(wavData_downsample);
+            wavToFlac.wav_to_flac(wavData_Uint8Array);
             var wavBlob = new Blob([wavData_Uint8Array], {type: "audio/wav"});
             var wavUrl = window.URL.createObjectURL(wavBlob);
             document.getElementById("audio-wav").src = wavUrl;
+        }
+
+        function on_flac_data(result){
+            var flacBlob = new Blob([result], {type: "audio/flac"});
+            var flacUrl = window.URL.createObjectURL(flacBlob);
+            document.getElementById("audio-flac").src = flacUrl;
         }
         // test data end
 
