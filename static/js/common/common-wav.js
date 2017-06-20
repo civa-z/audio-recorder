@@ -4,25 +4,29 @@ window.CommmonWav = {
         view.setUint8(offset + i, string.charCodeAt(i));
       }
     },
-    downsampleWav : function(wavData, sampleRateRatio=1){
-        if (1 == sampleRateRatio) {
-            return wavData;
+
+    downsampleArray: function(srcInt16View, srcSampleRate, desInt16View, desSampleRate, desDataLength){
+        var sampleRateRatio = srcSampleRate/ desSampleRate;
+        for (var index = 0; index < desDataLength; ++index){
+            desInt16View[index] = srcInt16View[parseInt(index * sampleRateRatio)];
+            //console.log("" + index + " " + parseInt(index * sampleRateRatio))
         }
-        if (1 > sampleRateRatio) {
-            throw "downsampling rate show be smaller than original sample rate";
-        }
+    },
+
+    downsampleWav : function(wavData, sampleRate){
 
         var srcView = new DataView(wavData);
-
         var srcSampleRate = srcView.getUint32(24, true);
+        if (srcSampleRate == sampleRate)
+            return wavData;
+
         var srcDataChunkLength = srcView.getUint32(40, true);
         var srcDataChunkInt6View = new Int16Array(wavData, 44);
 
-        var desSampleRate = Math.round(srcSampleRate / sampleRateRatio);
-        var desDataLength = Math.round(srcDataChunkLength / sampleRateRatio / 2);
+        var desSampleRate = sampleRate;
+        var desDataLength = Math.round(srcDataChunkLength / srcSampleRate * desSampleRate / 2);
         var desBuffer = new ArrayBuffer(44 + desDataLength * 2);
         var desView = new DataView(desBuffer);
-        var desInt16View = new Int16Array(desBuffer);
 
 
         /* ChunkID: RIFF identifier */
@@ -53,11 +57,10 @@ window.CommmonWav = {
         desView.setUint32(40, desDataLength * 2, true);
 
         /* Data pcm data */
-        var desDataChunkInt6View = srcDataChunkInt6View.filter(
-            function(element, index){
-             return (0 == (index % sampleRateRatio))
-             });
-        desInt16View.set(desDataChunkInt6View, 44 / 2);
+        CommmonWav.downsampleArray(
+            new Int16Array(wavData, 44), srcSampleRate,
+            new Int16Array(desBuffer, 44), desSampleRate,
+            desDataLength);
 
         return desBuffer;
     }

@@ -25,7 +25,7 @@ $(function(){
 
         function on_wav_data(){
             var wavData = Recorder.recorderInstance.getWavData();
-            var wavData_downsample = CommmonWav.downsampleWav(wavData, 3);
+            var wavData_downsample = CommmonWav.downsampleWav(wavData, 16000);
             var wavData_Uint8Array = new Uint8Array(wavData_downsample);
             wavToFlac.wav_to_flac(wavData_Uint8Array);
             var wavBlob = new Blob([wavData_Uint8Array], {type: "audio/wav"});
@@ -33,8 +33,8 @@ $(function(){
             document.getElementById("audio-wav").src = wavUrl;
         }
 
-        function on_flac_data(result){
-            var flacBlob = new Blob([result], {type: "audio/flac"});
+        function on_flac_data(flacData){
+            var flacBlob = new Blob([flacData], {type: "audio/flac"});
             var flacUrl = window.URL.createObjectURL(flacBlob);
             document.getElementById("audio-flac").src = flacUrl;
         }
