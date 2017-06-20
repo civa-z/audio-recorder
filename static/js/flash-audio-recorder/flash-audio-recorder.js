@@ -262,23 +262,15 @@
 
         function get_wav_data(){
             var b64Data = Recorder.recorder.getBase64(name);
-            var sliceSize = 512;
-
             var byteCharacters = atob(b64Data);
-            var byteArrays = [];
+            var buffer = new ArrayBuffer(byteCharacters.length);
+            var view = new DataView(buffer);
 
-            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                var slice = byteCharacters.slice(offset, offset + sliceSize);
+            for (var index = 0; index < byteCharacters.length; ++index) {
+                view.setUint8(index, byteCharacters.charCodeAt(index));
+            }
 
-                var byteNumbers = new Array(slice.length);
-                for (var i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-                }
-
-                var byteArray = new Uint8Array(byteNumbers);
-                byteArrays.push(byteArray);
-             }
-             return byteArrays;
+            return buffer;
         }
 
         function fwr_event_handler() {
@@ -290,34 +282,42 @@
                 Recorder.connect(RECORDER_APP_ID, 0);
                 Recorder.recorderOriginalWidth = appWidth;
                 Recorder.recorderOriginalHeight = appHeight;
+                console.info('ready');
                 break;
 
               case "microphone_user_request":
                 Recorder.showPermissionWindow();
+                console.info('microphone_user_request');
                 break;
 
               case "permission_panel_closed":
                 Recorder.defaultSize();
+                console.info('permission_panel_closed');
                 break;
 
               case "recording":
                 Recorder.hide();
                 Recorder.observeLevel();
+                console.info('recording');
                 break;
 
               case "recording_stopped":
                 Recorder.show();
                 Recorder.stopObservingLevel();
                 Recorder.onStatusUpdate({status: "record_finish"});
+                console.info('recording_stopped');
                 //$level.css({height: 0});
                 break;
 
               case "microphone_level":
                 //$level.css({height: arguments[1] * 100 + '%'});
+                //console.info('microphone_level');
+                Recorder.onStatusUpdate({status: "microphone_level", level: arguments[1]});
                 break;
 
               case "save_pressed":
                 Recorder.updateForm();
+                console.info('save_pressed');
                 break;
 
               case "saving":

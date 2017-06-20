@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     var int16DataBuffer;
-    var downSampleRate = 3;
+    var downSampleRate = 1;
 
     var clearBuffer = function() {
         int16DataBuffer = [];
@@ -99,14 +99,14 @@
         var int16DataArray = new Int16Array(int16DataBuffer);
         int16View.set(int16DataArray, 44 / 2);
 
-        return new Uint8Array(buffer);
+        return buffer;
     }
 
     var finish = function() {
 		var wavdata = encodeWAV(int16DataBuffer, 48000 / downSampleRate);
         self.postMessage({
             cmd: 'end',
-            data: wavdata
+            data: wavdata //ArrayBuffer
         });
         clearBuffer();
     };

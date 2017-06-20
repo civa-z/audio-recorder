@@ -107,7 +107,7 @@
         function get_wav_data(){
             wavData_ = wavData;
             wavData = null;
-            return [wavData_];
+            return wavData_;
         }
 
        function log(str) {

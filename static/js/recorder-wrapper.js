@@ -24,7 +24,9 @@ $(function(){
         Recorder.registerWavDataCallback(on_wav_data);
         function on_wav_data(){
             var wavData = Recorder.recorderInstance.getWavData();
-            var wavBlob = new Blob(wavData, {type: "audio/wav"});
+            var wavData_downsample = CommmonWav.downsampleWav(wavData, 3);
+            var wavData_Uint8Array = new Uint8Array(wavData_downsample);
+            var wavBlob = new Blob([wavData_Uint8Array], {type: "audio/wav"});
             var wavUrl = window.URL.createObjectURL(wavBlob);
             document.getElementById("audio-wav").src = wavUrl;
         }
