@@ -298,7 +298,7 @@
               case "recording":
                 Recorder.hide();
                 Recorder.observeLevel();
-                console.info('recording');
+                console.info('Flash recording');
                 break;
 
               case "recording_stopped":
@@ -310,8 +310,6 @@
                 break;
 
               case "microphone_level":
-                //$level.css({height: arguments[1] * 100 + '%'});
-                //console.info('microphone_level');
                 Recorder.onStatusUpdate({status: "microphone_level", level: arguments[1]});
                 break;
 

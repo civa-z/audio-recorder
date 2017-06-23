@@ -8,7 +8,7 @@ $(function(){
 
 
         var recorderButton;
-        Recorder.recorderInstance = ContextAudioRecorder(Recorder.onStatusUpdate);
+        //Recorder.recorderInstance = ContextAudioRecorder(Recorder.onStatusUpdate);
         if (Recorder.recorderInstance && Recorder.recorderInstance.initialize()){
             recorderButton = document.getElementById("context-recorder");
         } else {
@@ -41,13 +41,19 @@ $(function(){
         // test data end
 
         function on_status_update(e){
+            var $level = $('.level .progress');
             switch (e.status){
                 case "ready":
                     console.log("Recorder on_status_update ready" );
                     break;
                 case "record_finish":
                     console.log("Recorder on_status_update record_finish" );
+                    $level.css({height: 0});
                     Recorder.onWavData();
+                    break;
+                case "microphone_level":
+                    $level.css({height: e.level * 100 + '%'});
+                    //console.info('microphone_level');
                     break;
                 case "error":
                     console.log("Recorder on_status_update error: " + e.status);
